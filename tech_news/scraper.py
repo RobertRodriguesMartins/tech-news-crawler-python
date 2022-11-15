@@ -1,4 +1,5 @@
 import time
+from parsel import Selector
 from requests import get
 from requests.exceptions import ConnectionError, RetryError, Timeout
 
@@ -18,7 +19,13 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    selected = Selector(text=html_content)
+
+    news_url_list = [
+        url
+        for url in selected.css("body .entry-title > a::attr(href)").getall()
+    ]
+    return news_url_list
 
 
 # Requisito 3
