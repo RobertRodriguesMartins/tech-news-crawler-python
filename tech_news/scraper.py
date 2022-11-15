@@ -39,7 +39,40 @@ def scrape_next_page_link(html_content):
 
 # Requisito 4
 def scrape_noticia(html_content):
-    """Seu código deve vir aqui"""
+    unique_data_keys = [
+        "url",
+        "title",
+        "timestamp",
+        "writer",
+        "category",
+    ]
+    unique_search_params = [
+        "head > link[rel=canonical]::attr(href)",
+        "body .entry-header-inner > h1::text",
+        "body ul > li.meta-date::text",
+        "body ul > li.meta-author span.author > a::text",
+        "body span.label::text",
+    ]
+    summary_search = "body .entry-content > p:nth-of-type(1) *::text"
+    tags_search = "body .post-tags li > a *::text"
+    comments_search = "body #comments > h5::text"
+    selected = Selector(text=html_content)
+    scrapped_dict = dict()
+    for index, key in enumerate(unique_data_keys):
+        data = selected.css(unique_search_params[index]).get()
+        scrapped_dict[key] = data
+        if key == "title":
+            scrapped_dict[key] = data.strip()
+
+    scrapped_dict["tags"] = selected.css(tags_search).getall()
+    scrapped_dict["comments_count"] = 0
+    scrapped_dict["summary"] = "".join(
+        selected.css(summary_search).getall()
+    ).strip()
+    comments = selected.css(comments_search).re(r"/[0-9]/g")
+    if bool(comments):
+        scrapped_dict["comments_count"] = comments
+    return scrapped_dict
 
 
 # Requisito 5
