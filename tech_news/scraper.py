@@ -1,6 +1,19 @@
+import time
+from requests import get
+from requests.exceptions import ConnectionError, RetryError, Timeout
+
+
 # Requisito 1
 def fetch(url):
-    """Seu código deve vir aqui"""
+    try:
+        custom_headers = {"user-agent": "Fake user-agent"}
+        page = get(url, timeout=3, headers=custom_headers)
+        time.sleep(1)
+        if page.status_code == 200:
+            return page.text
+        return None
+    except (ConnectionError, RetryError, Timeout):
+        return None
 
 
 # Requisito 2
