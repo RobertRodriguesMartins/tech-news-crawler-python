@@ -3,13 +3,10 @@ from tech_news.database import search_news
 
 # Requisito 6
 def search_by_title(title):
-    a = list()
-    user_search = {"$regex": fr'.*{title}.*', "$options": "i"}
-    query = {'title': user_search}
+    user_search = {"$regex": rf".*{title}.*", "$options": "i"}
+    query = {"title": user_search}
     news_list = search_news(query)
-    response = [
-        tuple((news['title'], news['url'])) for news in news_list
-    ]
+    response = [tuple((news["title"], news["url"])) for news in news_list]
     return response
 
 
