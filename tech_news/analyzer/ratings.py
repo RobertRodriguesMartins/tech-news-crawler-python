@@ -11,4 +11,11 @@ def top_5_news():
 
 # Requisito 11
 def top_5_categories():
-    """Seu código deve vir aqui"""
+    news_cursor = db.news.aggregate(
+        [
+            {"$group": {"_id": "$category", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1, "_id": 1}},
+            {"$limit": 5},
+        ]
+    )
+    return [news["_id"] for news in news_cursor]
