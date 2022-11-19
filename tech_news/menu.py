@@ -1,5 +1,5 @@
-from tech_news.analyzer.ratings import top_5_news, top_5_categories
 from tech_news.scraper import get_tech_news
+from tech_news.analyzer.ratings import top_5_news, top_5_categories
 from tech_news.analyzer.search_engine import (
     search_by_title,
     search_by_date,
@@ -41,20 +41,19 @@ def search_category():
     print(search_by_category(category))
 
 
-possibilites = {
-    "0": populate_db,
-    "1": search_title,
-    "2": search_date,
-    "3": search_tag,
-    "4": search_category,
-    "5": top_5_news,
-    "6": top_5_categories,
-}
+def search_5_best_news():
+    print(top_5_news())
 
 
-# Requisito 12
-def analyzer_menu():
-    listening = True
+def search_5_best_category():
+    print(top_5_categories())
+
+
+def exit_program():
+    sys.exit(0)
+
+
+def gui_generate():
     menu_text = io.StringIO()
     print(
         "Selecione uma das opções a seguir:\n",
@@ -70,11 +69,41 @@ def analyzer_menu():
         file=menu_text,
         end="",
     )
+    return menu_text
+
+
+def start_user_interaction(menu_text):
+    listening = True
     while listening:
         user_action = input(menu_text.getvalue())
         if not possibilites.__contains__(user_action):
-            menu_text.close()
-            listening = False
             print("Opção inválida", file=sys.stderr)
-        else:
+            listening = False
+        if listening:
             possibilites[user_action]()
+
+
+possibilites = {
+    "0": populate_db,
+    "1": search_title,
+    "2": search_date,
+    "3": search_tag,
+    "4": search_category,
+    "5": search_5_best_news,
+    "6": search_5_best_category,
+    "7": exit_program,
+}
+
+
+# Requisito 12
+def analyzer_menu():
+    try:
+        menu_text = gui_generate()
+        start_user_interaction(menu_text)
+    except SystemExit:
+        print("Encerrando script")
+    except Exception:
+        err = sys.exc_info()[0]
+        print(err, file=sys.stderr)
+    finally:
+        menu_text.close()
