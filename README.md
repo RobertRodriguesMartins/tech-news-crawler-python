@@ -1,13 +1,24 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+# Bem vindo ao crawler tech-news em python
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+Ele faz raspagem de dados,
+e os salva em um banco de dados,
+utiliza o mongo db para tal!
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
+
+apenas para fins educacionais!
 -->
+
+para rodar o projeto você precisa do python instalado
+
+então na pasta do projeto rodar:
+ 
+ python3 -m venv .venv
+ source .venv/bin/activate
+
+ python3 -m pip install -r dev-requirements.txt
+ 
+ subir o mongodb no docker ou localmente!
+ 
+ utilizar o arquivo menu.py para iniciar a aplicação!
+ 
+
